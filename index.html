@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ジャイロセンサー</title>
-    <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ジャイロセンサー</title>
 </head>
 <body>
-    <div class="garden">
-        <div class="ball"></div>
-    </div>
-    <p>端末を地面に並行に置いてください。 X 軸と Y 軸に沿って回転させ、ボールがそれぞれ上下左右に移動するのを確認しましょう。</p>
-    <pre class="output"></pre>
+  <h1>ジャイロセンサーのデータを取得</h1>
+  <button id="requestPermissionBtn">ジャイロアクセスを許可</button>
+  <p id="alpha">Alpha: 0</p>
+  <p id="beta">Beta: 0</p>
+  <p id="gamma">Gamma: 0</p>
 
-    <div id="txt">ここにデータを表示</div>  
-      
+  <script>
+    const alphaElement = document.getElementById('alpha');
+    const betaElement = document.getElementById('beta');
+    const gammaElement = document.getElementById('gamma');
+    const requestPermissionBtn = document.getElementById('requestPermissionBtn');
 
-    <script src="./js/script.js"></script>
+    requestPermissionBtn.addEventListener('click', () => {
+      if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        DeviceMotionEvent.requestPermission()
+          .then(response => {
+            if (response === 'granted') {
+              window.addEventListener('deviceorientation', (event) => {
+                const alpha = event.alpha;
+                const beta = event.beta;
+                const gamma = event.gamma;
+
+                alphaElement.textContent = `Alpha: ${alpha}`;
+                betaElement.textContent = `Beta: ${beta}`;
+                gammaElement.textContent = `Gamma: ${gamma}`;
+              });
+            } else {
+              alert('ジャイロデータへのアクセスが拒否されました。');
+            }
+          })
+          .catch(console.error);
+      }
+    });
+  </script>
 </body>
 </html>
