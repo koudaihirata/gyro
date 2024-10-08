@@ -1,3 +1,9 @@
+//. DeviceOrientationEvent オブジェクトが有効な環境か？　をチェック
+if( window.DeviceOrientationEvent ){
+    //. DeviceOrientationEvent オブジェクトが有効な場合のみ、deviceorientation イベント発生時に deviceOrientaion 関数がハンドリングするよう登録
+    window.addEventListener( "deviceorientation", deviceOrientation );
+  }
+  
 var alpha = 0, beta = 0, gamma = 0;             // ジャイロの値を入れる変数を3個用意
 
 // ジャイロセンサの値が変化したら実行される deviceorientation イベント
