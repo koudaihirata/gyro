@@ -16,6 +16,15 @@ const gyroPermissionGranted = localStorage.getItem('gyroPermissionGranted');
     alpha = event.alpha;
     beta = event.beta;
     gamma = event.gamma;
+
+    // Alpha の値が 300 から 320 になったら右ページを移動
+    if (alpha < 320 && alpha > 300) {
+      window.location.href = 'right.html';
+    }
+    // Alpha の値が 40 から 60 になったら左ページを移動
+    if (alpha > 40 && alpha < 60) {
+      window.location.href = 'left.html';
+    }
   });
 
 let timer = window.setInterval(() => {
@@ -67,10 +76,8 @@ requestPermissionBtn.addEventListener('click', () => {
     DeviceMotionEvent.requestPermission()
       .then(response => {
         if (response === 'granted') {
-          // 許可されたらローカルストレージに保存し、ジャイロセンサーを開始
-          localStorage.setItem('gyroPermissionGranted', 'true');
-          requestPermissionBtn.style.display = 'none'; // ボタンを隠す
-        //   startGyro();
+          // 許可されたらジャイロセンサーを開始
+          startGyro();
         } else {
           alert('ジャイロデータへのアクセスが拒否されました。');
         }
@@ -78,3 +85,8 @@ requestPermissionBtn.addEventListener('click', () => {
       .catch(console.error);
   }
 });
+
+
+if ( alpha < 320 && alpha > 300 ) {
+  window.location.href = 'left.html';
+}
